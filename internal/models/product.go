@@ -30,15 +30,17 @@ func (p *Product) Validate() error {
 
 func NewProduct(name, description string, price float64, quantity int) (*Product, error) {
 	np := &Product{
-		ID:          0, // id++, don`t forget
+		ID:          0,
 		Name:        name,
 		Description: description,
 		Price:       price,
 		Quantity:    quantity,
 		CreatedAt:   time.Now(),
 	}
+
 	if err := np.Validate(); err != nil {
 		return nil, fmt.Errorf("Error: %w", err)
 	}
+
 	return np, nil
 }
