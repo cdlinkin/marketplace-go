@@ -37,7 +37,7 @@ func (f *FileProductRepo) List() ([]models.Product, error) {
 	return products, nil
 }
 
-func (f *FileProductRepo) GetID(id int) (*models.Product, error) {
+func (f *FileProductRepo) Get(id int) (*models.Product, error) {
 	products, err := f.List()
 	if err != nil {
 		return nil, fmt.Errorf("Error: %w", err)
