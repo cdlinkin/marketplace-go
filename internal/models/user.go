@@ -29,7 +29,7 @@ func (u *User) Validate() error {
 
 func NewUser(name, email, pass string) (*User, error) {
 	nu := &User{
-		ID:        0, // id++, don`t forget
+		ID:        0,
 		Name:      name,
 		Email:     email,
 		Password:  pass,

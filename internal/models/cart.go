@@ -2,7 +2,7 @@ package models
 
 type Cart struct {
 	UserID int         `json:"user_id"`
-	Items  map[int]int `json:"items"` // key - productID; value - quantity
+	Items  map[int]int `json:"items"`
 }
 
 func (c *Cart) AddProduct(productID, quantity int) {

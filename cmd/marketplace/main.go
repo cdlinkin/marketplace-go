@@ -7,6 +7,7 @@ import (
 	"os/signal"
 
 	"github.com/cdlinkin/marketplace/internal/api"
+	"github.com/cdlinkin/marketplace/internal/api/middleware"
 	"github.com/cdlinkin/marketplace/internal/async"
 	"github.com/cdlinkin/marketplace/internal/repo"
 	"github.com/cdlinkin/marketplace/internal/services"
@@ -23,11 +24,12 @@ func main() {
 	orderPool := async.NewOrderWorkelPool(100, orderService)
 	orderPool.Start(3)
 
-	handler := api.NewRouter(productService, cartService, orderService, orderPool)
+	router := api.NewRouter(productService, cartService, orderService, orderPool)
+	loggerRouter := middleware.Logger(router)
 
 	server := &http.Server{
 		Addr:    ":9090",
-		Handler: handler,
+		Handler: loggerRouter,
 	}
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
