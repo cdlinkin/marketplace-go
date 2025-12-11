@@ -19,7 +19,11 @@ func NewCartService() *CartService {
 func (s *CartService) AddProduct(userID, productID, quantity int) error {
 	cart, err := s.GetCart(userID)
 	if err != nil {
-		return fmt.Errorf("Error: %w", err)
+		cart = &models.Cart{
+			UserID: userID,
+			Items:  make(map[int]int),
+		}
+		s.carts[userID] = cart
 	}
 
 	cart.AddProduct(productID, quantity)
@@ -27,9 +31,9 @@ func (s *CartService) AddProduct(userID, productID, quantity int) error {
 }
 
 func (s *CartService) GetCart(userID int) (*models.Cart, error) {
-	for _, carts := range s.carts {
-		if carts.UserID == userID {
-			return carts, nil
+	for _, cart := range s.carts {
+		if cart.UserID == userID {
+			return cart, nil
 		}
 	}
 	return nil, fmt.Errorf("Error: Cart is not founded")
