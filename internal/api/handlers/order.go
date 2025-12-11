@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/cdlinkin/marketplace/internal/api/dto"
+	"github.com/cdlinkin/marketplace/internal/async"
 	"github.com/cdlinkin/marketplace/internal/models"
 	"github.com/cdlinkin/marketplace/internal/services"
 )
@@ -36,6 +37,7 @@ func CreateOrder(
 	orderService *services.OrderService,
 	cartService *services.CartService,
 	productService *services.ProductService,
+	jobs chan<- async.OrderJob,
 ) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
@@ -82,10 +84,12 @@ func CreateOrder(
 			return
 		}
 
-		resp := orderToResponse(order)
+		jobs <- async.OrderJob{Order: order}
 
-		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(resp)
+		response := orderToResponse(order)
+
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(response)
 	}
 }
 
