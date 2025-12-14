@@ -1,8 +1,6 @@
 package repo
 
 import (
-	"fmt"
-
 	"github.com/cdlinkin/marketplace/internal/models"
 )
 
@@ -41,5 +39,5 @@ func (m *MemoryUserRepo) GetEmail(email string) (*models.User, error) {
 			return u, nil
 		}
 	}
-	return nil, fmt.Errorf("Error: user not found")
+	return nil, ErrUserNotFounded
 }

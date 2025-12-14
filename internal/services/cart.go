@@ -1,8 +1,6 @@
 package services
 
 import (
-	"fmt"
-
 	"github.com/cdlinkin/marketplace/internal/models"
 )
 
@@ -36,5 +34,5 @@ func (s *CartService) GetCart(userID int) (*models.Cart, error) {
 			return cart, nil
 		}
 	}
-	return nil, fmt.Errorf("Error: Cart is not founded")
+	return nil, ErrCartIsNotFounded
 }

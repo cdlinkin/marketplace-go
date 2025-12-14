@@ -9,7 +9,7 @@ type AddToCartRequest struct {
 type CartItemResponse struct {
 	ProductID int     `json:"product_id"`
 	Quantity  int     `json:"quantity"`
-	Price     float64 `json:"prict"`
+	Price     float64 `json:"price"`
 }
 
 type CartResponse struct {

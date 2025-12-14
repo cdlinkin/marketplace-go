@@ -7,6 +7,8 @@ import (
 	"github.com/cdlinkin/marketplace/internal/services"
 )
 
+const Complete = "complete"
+
 type OrderJob struct {
 	Order *models.Order
 }
@@ -30,7 +32,7 @@ func (p *OrderWorkerPool) Start(n int) {
 		go func(id int) {
 			defer p.wg.Done()
 			for job := range p.Jobs {
-				job.Order.Status = "complete"
+				job.Order.Status = Complete
 				_ = p.svc.CreateOrder(job.Order)
 			}
 		}(i + 1)
